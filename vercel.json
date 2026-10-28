@@ -1,0 +1,18 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/result/type-01", "destination": "/result/type-01/index.html" },
+    { "source": "/result/type-02", "destination": "/result/type-02/index.html" },
+    { "source": "/result/type-03", "destination": "/result/type-03/index.html" },
+    { "source": "/result/type-04", "destination": "/result/type-04/index.html" },
+    { "source": "/result/t1", "destination": "/result/t1/index.html" },
+    { "source": "/result/t2", "destination": "/result/t2/index.html" },
+    { "source": "/result/t3", "destination": "/result/t3/index.html" },
+    { "source": "/result/t4", "destination": "/result/t4/index.html" },
+    { "source": "/admin", "destination": "/admin/index.html" },
+    { "source": "/display", "destination": "/display/index.html" },
+    { "source": "/verify", "destination": "/verify/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
