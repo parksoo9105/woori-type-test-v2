@@ -17,7 +17,7 @@ describe('ShareModal Component', () => {
     render(<ShareModal isOpen={true} onClose={vi.fn()} />);
 
     expect(screen.getByText('테스트 링크 공유하기')).toBeInTheDocument();
-    expect(screen.getByText('우리 유형 테스트')).toBeInTheDocument();
+    expect(screen.getByText(/우리.*유형.*테스트/i)).toBeInTheDocument();
     expect(screen.getByText('카카오톡으로 공유')).toBeInTheDocument();
     expect(screen.getByText(/링크 복사하기/i)).toBeInTheDocument();
   });
@@ -50,7 +50,7 @@ describe('ShareModal Component', () => {
     fireEvent.click(copyBtn);
 
     await waitFor(() => {
-      expect(screen.getByText('링크가 복사되었습니다!')).toBeInTheDocument();
+      expect(screen.getAllByText(/링크가 복사되었습니다/).length).toBeGreaterThan(0);
     });
   });
 

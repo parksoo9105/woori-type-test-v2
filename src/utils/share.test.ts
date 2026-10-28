@@ -68,11 +68,12 @@ describe('Share Utilities (src/utils/share.ts)', () => {
       expect(url).toBe('https://collective-karma.org');
     });
 
-    it('resultType이 전달되면 해당 유형의 고유 주소(/result/type-01, /result/type-02 등)를 반환한다', () => {
-      expect(getShareUrl({ id: 'type-1' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/result/type-01`);
-      expect(getShareUrl({ id: 'type-2' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/result/type-02`);
-      expect(getShareUrl({ id: 'type-3' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/result/type-03`);
-      expect(getShareUrl({ id: 'type-4' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/result/type-04`);
+    it('모든 공유 링크는 메인 테스트 주소(https://woori-type-test-v2.vercel.app)를 반환한다', () => {
+      expect(getShareUrl()).toBe(DEFAULT_PRODUCTION_URL);
+      expect(getShareUrl({ id: 'type-1' } as any)).toBe(DEFAULT_PRODUCTION_URL);
+      expect(getShareUrl({ id: 'type-2' } as any)).toBe(DEFAULT_PRODUCTION_URL);
+      expect(getShareUrl({ id: 'type-3' } as any)).toBe(DEFAULT_PRODUCTION_URL);
+      expect(getShareUrl({ id: 'type-4' } as any)).toBe(DEFAULT_PRODUCTION_URL);
     });
   });
 
@@ -82,11 +83,11 @@ describe('Share Utilities (src/utils/share.ts)', () => {
       expect(imgUrl).toBe(`${DEFAULT_PRODUCTION_URL}/og-image.png?v=2`);
     });
 
-    it('resultType이 전달되면 해당 유형의 1200x630 공유용 이미지(/share/share-type-XX.png?v=2) 절대 경로를 반환한다', () => {
-      expect(getShareImageUrl({ id: 'type-1' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/share/share-type-01.png?v=2`);
-      expect(getShareImageUrl({ id: 'type-2' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/share/share-type-02.png?v=2`);
-      expect(getShareImageUrl({ id: 'type-3' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/share/share-type-03.png?v=2`);
-      expect(getShareImageUrl({ id: 'type-4' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/share/share-type-04.png?v=2`);
+    it('resultType이 전달되면 해당 유형의 최종 결과 카드 이미지(/woori-type-XX.png?v=2) 절대 경로를 반환한다', () => {
+      expect(getShareImageUrl({ id: 'type-1' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/woori-type-01.png?v=2`);
+      expect(getShareImageUrl({ id: 'type-2' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/woori-type-02.png?v=2`);
+      expect(getShareImageUrl({ id: 'type-3' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/woori-type-03.png?v=2`);
+      expect(getShareImageUrl({ id: 'type-4' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/woori-type-04.png?v=2`);
     });
   });
 
@@ -184,7 +185,7 @@ describe('Share Utilities (src/utils/share.ts)', () => {
       );
     });
 
-    it('유형 결과가 전달되면 1200x630 이미지와 /result/type-02 주소로 카카오톡 공유를 호출하며, "결과 확인하기" 버튼을 포함한다', () => {
+    it('유형 결과가 전달되면 유형별 카드 이미지와 메인 페이지 이동 주소로 카카오톡 공유를 호출하며, "나도 테스트하기" 버튼을 포함한다', () => {
       const sendDefaultMock = vi.fn();
       (window as any).Kakao = {
         isInitialized: () => true,
@@ -205,29 +206,22 @@ describe('Share Utilities (src/utils/share.ts)', () => {
       expect(sendDefaultMock).toHaveBeenCalledWith({
         objectType: 'feed',
         content: {
-          title: "나의 '우리' 유형은 연결망의 항해자",
-          description: "새로운 사람과 생각에 열린 태도로 다가가며 다양한 관계의 가능성을 탐색하는 유형",
-          imageUrl: `${DEFAULT_PRODUCTION_URL}/share/share-type-02.png?v=2`,
-          imageWidth: 1200,
-          imageHeight: 630,
+          title: "나의 우리유형은 '연결망의 항해자'",
+          description: "여섯 개의 질문으로 알아보는 나의 우리유형",
+          imageUrl: `${DEFAULT_PRODUCTION_URL}/woori-type-02.png?v=2`,
+          imageWidth: 600,
+          imageHeight: 1000,
           link: {
-            mobileWebUrl: `${DEFAULT_PRODUCTION_URL}/result/type-02`,
-            webUrl: `${DEFAULT_PRODUCTION_URL}/result/type-02`,
+            mobileWebUrl: DEFAULT_PRODUCTION_URL,
+            webUrl: DEFAULT_PRODUCTION_URL,
           },
         },
         buttons: [
           {
-            title: '결과 확인하기',
-            link: {
-              mobileWebUrl: `${DEFAULT_PRODUCTION_URL}/result/type-02`,
-              webUrl: `${DEFAULT_PRODUCTION_URL}/result/type-02`,
-            },
-          },
-          {
             title: '나도 테스트하기',
             link: {
-              mobileWebUrl: `${DEFAULT_PRODUCTION_URL}/?fresh=1`,
-              webUrl: `${DEFAULT_PRODUCTION_URL}/?fresh=1`,
+              mobileWebUrl: DEFAULT_PRODUCTION_URL,
+              webUrl: DEFAULT_PRODUCTION_URL,
             },
           },
         ],

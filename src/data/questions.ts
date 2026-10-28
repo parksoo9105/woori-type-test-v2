@@ -178,27 +178,27 @@ export const QUESTIONS: Question[] = [
       {
         id: 'ai_tool',
         label: '필요할 때 정보를 얻거나 작업을 처리하는 도구',
-        score: 1,
+        score: 0,
       },
       {
         id: 'ai_assistant',
         label: '생각을 정리하거나 문제를 해결할 때 도움을 주는 조력자',
-        score: 2,
+        score: 1,
       },
       {
         id: 'ai_conversation',
         label: '일상적인 고민이나 생각을 편하게 나눌 수 있는 대화 상대',
-        score: 3,
+        score: 2,
       },
       {
         id: 'ai_companion',
         label: '나를 이해하고 함께 생각을 발전시켜 나가는 동반자',
-        score: 4,
+        score: 3,
       },
       {
         id: 'ai_no_relationship',
         label: 'AI를 특별한 관계의 대상으로 생각하지 않는다',
-        score: 1,
+        score: 0,
       },
     ],
   },

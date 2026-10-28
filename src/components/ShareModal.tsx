@@ -71,11 +71,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
     const success = await copyToClipboard(shareUrl);
     if (success) {
       setCopied(true);
-      showToast(
-        resultType
-          ? '내 결과 링크가 복사되었습니다! 친구에게 전달해 보세요.'
-          : '링크가 복사되었습니다. 원하는 곳에 붙여넣어 공유해 보세요.'
-      );
+      showToast('링크가 복사되었습니다.');
       setTimeout(() => setCopied(false), 2500);
     } else {
       showToast('링크 복사에 실패했습니다. 주소를 직접 복사해 주세요.');
@@ -292,7 +288,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
             {copied ? (
               <>
                 <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span className="font-semibold text-emerald-800">링크가 복사되었습니다!</span>
+                <span className="font-semibold text-emerald-800">링크가 복사되었습니다.</span>
               </>
             ) : (
               <>

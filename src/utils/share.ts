@@ -4,7 +4,7 @@
 
 import { ResultTypeId, ResultTypeInfo, ScoreBreakdown } from '../types';
 
-export const DEFAULT_PRODUCTION_URL = 'https://woori-type-test.vercel.app';
+export const DEFAULT_PRODUCTION_URL = 'https://woori-type-test-v2.vercel.app';
 export const DEFAULT_KAKAO_JS_KEY = 'e61f671fbd50e670cc3b10c1f779d620';
 
 export const TYPE_URL_SLUGS: Record<ResultTypeId, string> = {
@@ -30,10 +30,9 @@ export const SLUG_TO_TYPE_ID: Record<string, ResultTypeId> = {
 };
 
 export const SHARE_CONTENT = {
-  title: '우리 유형 테스트',
-  description:
-    '우리는 어떤 방식으로 연결되고 있을까요?\n6개의 질문으로 알아보는 나의 ‘우리’ 유형.\n당신의 ‘우리’는 어떤 모습인가요?',
-  summary: '우리는 어떤 방식으로 연결되고 있을까요? 6개의 질문으로 알아보는 나의 ‘우리’ 유형.',
+  title: '우리유형 테스트',
+  description: '여섯 개의 질문에 답하면 나의 ‘우리’ 유형을 볼 수 있어요.',
+  summary: '여섯 개의 질문에 답하면 나의 ‘우리’ 유형을 볼 수 있어요.',
 };
 
 /**
@@ -65,29 +64,23 @@ export function getBaseUrl(): string {
 
 /**
  * Returns the canonical URL for sharing.
- * If resultType is provided, returns the dedicated archetype URL: /result/t1, /result/t2, etc.
- * Otherwise returns the base start URL.
+ * All share links unified to main test page (https://woori-type-test-v2.vercel.app) as mandated in Part 3.
  */
-export function getShareUrl(resultType?: ResultTypeInfo | ResultTypeId, _breakdown?: ScoreBreakdown): string {
-  const base = getBaseUrl();
-  if (resultType) {
-    const typeId = typeof resultType === 'string' ? resultType : resultType.id;
-    const slug = TYPE_URL_SLUGS[typeId] || 'type-01';
-    return `${base}/result/${slug}`;
-  }
-  return base;
+export function getShareUrl(_resultType?: ResultTypeInfo | ResultTypeId, _breakdown?: ScoreBreakdown): string {
+  return getBaseUrl();
 }
 
 /**
  * Returns the absolute preview image URL for Open Graph / Kakao Feed sharing.
- * Returns the dedicated 1200x630px horizontal archetype card image for result pages.
+ * - If resultType is provided: returns the dedicated archetype result card (/woori-type-0X.png)
+ * - Otherwise: returns the main site thumbnail (/og-image.png)
  */
 export function getShareImageUrl(resultType?: ResultTypeInfo | ResultTypeId): string {
   const baseUrl = getBaseUrl();
   if (resultType) {
     const typeId = typeof resultType === 'string' ? resultType : resultType.id;
     const slug = TYPE_URL_SLUGS[typeId] || 'type-01';
-    return `${baseUrl}/share/share-${slug}.png?v=2`;
+    return `${baseUrl}/woori-${slug}.png?v=2`;
   }
   return `${baseUrl}/og-image.png?v=2`;
 }
@@ -213,7 +206,7 @@ export function initKakaoSDK(appKey?: string): boolean {
  */
 export function shareViaKakao(
   resultType?: ResultTypeInfo,
-  breakdown?: ScoreBreakdown
+  _breakdown?: ScoreBreakdown
 ): {
   status: 'sent' | 'needs_config' | 'error';
   message?: string;
@@ -233,47 +226,28 @@ export function shareViaKakao(
   }
 
   try {
-    const baseUrl = getBaseUrl();
-    const resultShareUrl = getShareUrl(resultType, breakdown);
-    const targetUrl = resultType ? resultShareUrl : baseUrl;
+    const SHARE_URL = getBaseUrl();
     const shareImageUrl = getShareImageUrl(resultType);
-    const imageWidth = 1200;
-    const imageHeight = 630;
+    const imageWidth = 600;
+    const imageHeight = 1000;
 
     const title = resultType
-      ? `나의 '우리' 유형은 ${resultType.title}`
+      ? `나의 우리유형은 '${resultType.title}'`
       : SHARE_CONTENT.title;
 
     const description = resultType
-      ? resultType.oneLineSummary
+      ? '여섯 개의 질문으로 알아보는 나의 우리유형'
       : SHARE_CONTENT.description;
 
-    const buttons = resultType
-      ? [
-          {
-            title: '결과 확인하기',
-            link: {
-              mobileWebUrl: targetUrl,
-              webUrl: targetUrl,
-            },
-          },
-          {
-            title: '나도 테스트하기',
-            link: {
-              mobileWebUrl: `${baseUrl}/?fresh=1`,
-              webUrl: `${baseUrl}/?fresh=1`,
-            },
-          },
-        ]
-      : [
-          {
-            title: '테스트 시작하기',
-            link: {
-              mobileWebUrl: `${baseUrl}/?fresh=1`,
-              webUrl: `${baseUrl}/?fresh=1`,
-            },
-          },
-        ];
+    const buttons = [
+      {
+        title: '나도 테스트하기',
+        link: {
+          mobileWebUrl: SHARE_URL,
+          webUrl: SHARE_URL,
+        },
+      },
+    ];
 
     const payload: any = {
       objectType: 'feed',
@@ -284,8 +258,8 @@ export function shareViaKakao(
         imageWidth,
         imageHeight,
         link: {
-          mobileWebUrl: targetUrl,
-          webUrl: targetUrl,
+          mobileWebUrl: SHARE_URL,
+          webUrl: SHARE_URL,
         },
       },
       buttons,

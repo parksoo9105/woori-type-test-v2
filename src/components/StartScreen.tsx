@@ -15,12 +15,12 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => {
   };
 
   return (
-    <div className="w-full bg-[#FAF8F5] text-[#171923] font-sans selection:bg-[#007CC3]/20">
+    <div className="w-full bg-[#F8F7F3] text-[#171923] font-sans selection:bg-[#E4E2D8]">
       
       {/* ======================================================== */}
-      {/* 1. HERO POSTER VIEWPORT (100svh, Ezera Benchmark)       */}
+      {/* 1. HERO POSTER VIEWPORT (100svh, 1536x1024 poster design) */}
       {/* ======================================================== */}
-      <section className="relative w-full h-[100svh] min-h-[640px]">
+      <section className="relative w-full h-[100svh] min-h-[560px]">
         <InteractivePosterScene
           onStart={onStart}
           onScrollToDetails={handleScrollToDetails}
@@ -33,53 +33,105 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => {
       <section
         ref={detailsRef}
         id="archetypes-overview"
-        className="relative z-20 w-full max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-16 py-24 border-t border-stone-200/80"
+        className="relative z-20 w-full max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-16 py-20 border-t border-[#E4E2D8]"
       >
         {/* Section Header */}
         <div className="max-w-2xl text-left mb-14">
-          <span className="text-[12px] sm:text-[13px] font-semibold tracking-[0.2em] text-[#007CC3] uppercase block mb-3 font-sans">
+          <span className="text-[12px] sm:text-[13px] font-semibold tracking-[0.16em] text-[#64748B] uppercase block mb-3 font-sans">
             FOUR RELATIONSHIP ARCHETYPES
           </span>
           <h2 className="text-[32px] sm:text-[42px] font-bold text-[#171923] tracking-[-0.03em] leading-[1.2] mb-4">
             우리는 서로 다른 방식으로 연결됩니다
           </h2>
-          <p className="text-[16px] sm:text-[18px] text-stone-500 font-serif leading-[1.6]">
+          <p className="text-[16px] sm:text-[18px] text-[#64748B] font-normal leading-[1.6]">
             여섯 개의 질문을 통해 지금 나의 관계 방식과 &lsquo;우리&rsquo;를 이루는 고유한 리듬을 발견해 보세요.
           </p>
         </div>
 
-        {/* 4 Archetypes Cards Grid (Standalone Premium Cards) */}
+        {/* 4 Archetypes Cards Grid (Updated with Final Design Assets & Names) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {/* Card 01 - Orange */}
-          <div className="group transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1">
-            <TypeIllustration
-              typeId="type-1"
-              className="transition-shadow duration-300 group-hover:shadow-[0_22px_44px_-10px_rgba(240,131,0,0.32)]"
-            />
+          {/* Card 01 */}
+          <div className="flex flex-col bg-white rounded-3xl p-5 border border-[#E4E2D8] shadow-xs hover:border-[#FF654F]/50 transition-all">
+            <div className="w-full rounded-2xl overflow-hidden mb-4">
+              <TypeIllustration typeId="type-1" showTextOverlay={false} />
+            </div>
+            <div className="text-left mt-auto">
+              <span className="text-[11px] font-bold text-[#FF654F] tracking-wider uppercase font-sans">
+                TYPE 01 · RED
+              </span>
+              <h3 className="text-[19px] font-bold text-[#171923] tracking-tight mt-0.5">
+                마주보는 정원사
+              </h3>
+              <p className="text-[13px] font-semibold text-[#64748B] mt-0.5">
+                익숙한 이들과 깊게 연결되는 우리
+              </p>
+              <p className="text-[13px] text-[#64748B] mt-2 leading-[1.5]">
+                얼굴을 마주하고 함께하는 시간 속에서 깊은 유대감과 편안함을 느끼는 관계
+              </p>
+            </div>
           </div>
 
-          {/* Card 02 - Blue Key */}
-          <div className="group transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1">
-            <TypeIllustration
-              typeId="type-2"
-              className="transition-shadow duration-300 group-hover:shadow-[0_22px_44px_-10px_rgba(0,124,195,0.38)]"
-            />
+          {/* Card 02 */}
+          <div className="flex flex-col bg-white rounded-3xl p-5 border border-[#E4E2D8] shadow-xs hover:border-[#4169E1]/50 transition-all">
+            <div className="w-full rounded-2xl overflow-hidden mb-4">
+              <TypeIllustration typeId="type-2" showTextOverlay={false} />
+            </div>
+            <div className="text-left mt-auto">
+              <span className="text-[11px] font-bold text-[#4169E1] tracking-wider uppercase font-sans">
+                TYPE 02 · BLUE
+              </span>
+              <h3 className="text-[19px] font-bold text-[#171923] tracking-tight mt-0.5">
+                연결망의 항해자
+              </h3>
+              <p className="text-[13px] font-semibold text-[#64748B] mt-0.5">
+                온라인으로 연결되는 우리
+              </p>
+              <p className="text-[13px] text-[#64748B] mt-2 leading-[1.5]">
+                물리적 거리와 상관없이 취향과 생각으로 언제 어디서나 이어지는 관계
+              </p>
+            </div>
           </div>
 
-          {/* Card 03 - Dim Gray */}
-          <div className="group transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1">
-            <TypeIllustration
-              typeId="type-3"
-              className="transition-shadow duration-300 group-hover:shadow-[0_22px_44px_-10px_rgba(68,62,59,0.30)]"
-            />
+          {/* Card 03 */}
+          <div className="flex flex-col bg-white rounded-3xl p-5 border border-[#E4E2D8] shadow-xs hover:border-[#B8E34A]/50 transition-all">
+            <div className="w-full rounded-2xl overflow-hidden mb-4">
+              <TypeIllustration typeId="type-3" showTextOverlay={false} />
+            </div>
+            <div className="text-left mt-auto">
+              <span className="text-[11px] font-bold text-[#76A31D] tracking-wider uppercase font-sans">
+                TYPE 03 · GREEN
+              </span>
+              <h3 className="text-[19px] font-bold text-[#171923] tracking-tight mt-0.5">
+                다리를 놓는 탐험가
+              </h3>
+              <p className="text-[13px] font-semibold text-[#64748B] mt-0.5">
+                새로운 만남에 열린 우리
+              </p>
+              <p className="text-[13px] text-[#64748B] mt-2 leading-[1.5]">
+                다양한 사람들과의 만남 속에서 새로운 생각과 가능성을 기꺼이 받아들이는 관계
+              </p>
+            </div>
           </div>
 
-          {/* Card 04 - Deep Black */}
-          <div className="group transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1">
-            <TypeIllustration
-              typeId="type-4"
-              className="transition-shadow duration-300 group-hover:shadow-[0_22px_44px_-10px_rgba(0,0,0,0.38)]"
-            />
+          {/* Card 04 */}
+          <div className="flex flex-col bg-white rounded-3xl p-5 border border-[#E4E2D8] shadow-xs hover:border-[#8064D8]/50 transition-all">
+            <div className="w-full rounded-2xl overflow-hidden mb-4">
+              <TypeIllustration typeId="type-4" showTextOverlay={false} />
+            </div>
+            <div className="text-left mt-auto">
+              <span className="text-[11px] font-bold text-[#8064D8] tracking-wider uppercase font-sans">
+                TYPE 04 · PURPLE
+              </span>
+              <h3 className="text-[19px] font-bold text-[#171923] tracking-tight mt-0.5">
+                고요한 등대
+              </h3>
+              <p className="text-[13px] font-semibold text-[#64748B] mt-0.5">
+                나만의 속도로 관계 맺는 우리
+              </p>
+              <p className="text-[13px] text-[#64748B] mt-2 leading-[1.5]">
+                서로의 독립된 공간과 고유한 템포를 존중하며 편안하게 지속되는 관계
+              </p>
+            </div>
           </div>
         </div>
 

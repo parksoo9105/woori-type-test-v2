@@ -49,11 +49,11 @@ const types = [
 ];
 
 function buildPrerenderedHtml(c) {
-  return `<div class="relative min-h-screen bg-[#F8F7F3] text-[#171923] flex flex-col items-center justify-center py-2 sm:py-6 selection:bg-[#E4E2D8] overflow-x-hidden font-sans cursor-pointer" onclick="try{sessionStorage.clear();localStorage.clear();}catch(e){};window.location.href='https://woori-type-test.vercel.app';">
+  return `<div class="relative min-h-screen bg-[#F5F3EE] text-[#171923] flex flex-col items-center justify-center py-2 sm:py-6 selection:bg-[#E4E2D8] overflow-x-hidden font-sans cursor-pointer" onclick="try{sessionStorage.clear();localStorage.clear();}catch(e){};window.location.href='https://woori-type-test-v2.vercel.app';">
   <main class="w-full max-w-2xl min-h-screen sm:min-h-0 sm:my-auto relative z-10 transition-all duration-300">
     <a
-      href="https://woori-type-test.vercel.app"
-      onclick="try{sessionStorage.clear();localStorage.clear();}catch(e){};window.location.href='https://woori-type-test.vercel.app';"
+      href="https://woori-type-test-v2.vercel.app"
+      onclick="try{sessionStorage.clear();localStorage.clear();}catch(e){};window.location.href='https://woori-type-test-v2.vercel.app';"
       class="flex flex-col min-h-screen max-w-xl mx-auto px-4 sm:px-6 py-6 sm:py-10 animate-fadeIn relative z-10 space-y-6 text-[#171923] no-underline block cursor-pointer"
       title="화면을 터치하여 나도 테스트 시작하기"
     >
@@ -116,7 +116,7 @@ function buildPrerenderedHtml(c) {
   <script>
     document.addEventListener('click', function(e) {
       try { sessionStorage.clear(); localStorage.clear(); } catch(err) {}
-      window.location.href = 'https://woori-type-test.vercel.app';
+      window.location.href = 'https://woori-type-test-v2.vercel.app';
     });
   </script>
 </div>`;
@@ -129,11 +129,11 @@ function generateStaticResults() {
     : fs.readFileSync(path.resolve(__dirname, '../index.html'), 'utf8');
 
   for (const c of types) {
-    const pageTitle = `나의 '우리' 유형은 ${c.title} | 우리 유형 테스트`;
-    const ogTitle = `나의 '우리' 유형은 ${c.title}`;
-    const ogDesc = c.oneLine; // Clean description without quotes
-    const ogImage = `https://woori-type-test.vercel.app/share/share-${c.slug}.png?v=2`;
-    const pageUrl = `https://woori-type-test.vercel.app/result/${c.slug}`;
+    const pageTitle = `나의 우리유형은 '${c.title}' | 우리유형 테스트`;
+    const ogTitle = `나의 우리유형은 '${c.title}'`;
+    const ogDesc = '여섯 개의 질문으로 알아보는 나의 우리유형';
+    const ogImage = `https://woori-type-test-v2.vercel.app/woori-${c.slug}.png?v=2`;
+    const pageUrl = `https://woori-type-test-v2.vercel.app/result/${c.slug}`;
 
     let pageHtml = baseHtml;
 

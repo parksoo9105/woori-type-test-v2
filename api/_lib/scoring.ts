@@ -103,24 +103,23 @@ export function calculateO3Score(val: string | number | undefined): number {
 export function calculateAIScore(val: string | number | undefined): number {
   if (typeof val === 'string') {
     switch (val) {
-      case 'ai_tool': return 1;
-      case 'ai_assistant': return 2;
-      case 'ai_conversation': return 3;
-      case 'ai_companion': return 4;
-      case 'ai_no_relationship': return 1;
-      default: return 1;
+      case 'ai_tool': return 0;
+      case 'ai_assistant': return 1;
+      case 'ai_conversation': return 2;
+      case 'ai_companion': return 3;
+      case 'ai_no_relationship': return 0;
+      default: return 0;
     }
   }
   const num = typeof val === 'number' ? val : parseInt(String(val || 1), 10);
   switch (num) {
-    case 1: return 1;
-    case 2: return 2;
-    case 3: return 3;
-    case 4: return 4;
-    case 5: return 1;
+    case 1: return 0;
+    case 2: return 1;
+    case 3: return 2;
+    case 4: return 3;
+    case 5: return 0;
     default: {
-      if (num === 0) return 1;
-      return 1;
+      return 0;
     }
   }
 }
@@ -136,8 +135,8 @@ export function toOpennessPercentage(oScore: number): number {
 }
 
 export function toAIPercentage(aiScore: number): number {
-  const clamped = Math.min(Math.max(Number(aiScore) || 1, 1), 4);
-  return Math.round((clamped / 4) * 100);
+  const clamped = Math.min(Math.max(Number(aiScore) || 0, 0), 3);
+  return Math.round((clamped / 3) * 100);
 }
 
 export function calculateScores(answers: Record<number, any>): {
@@ -158,7 +157,7 @@ export function calculateScores(answers: Record<number, any>): {
   return {
     connectionScore: Math.min(Math.max(c1 + c2 + c3, 0), 9),
     opennessScore: Math.min(Math.max(o1 + o2 + o3, 0), 9),
-    aiScore: Math.min(Math.max(ai, 1), 4),
+    aiScore: Math.min(Math.max(ai, 0), 3),
   };
 }
 

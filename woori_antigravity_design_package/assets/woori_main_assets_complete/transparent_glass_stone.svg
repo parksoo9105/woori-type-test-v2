@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="550" height="790" viewBox="0 0 550 790">
+<defs>
+<linearGradient id="edge" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#23354b" stop-opacity=".72"/><stop offset=".16" stop-color="#f9fdff" stop-opacity=".93"/><stop offset=".39" stop-color="#657487" stop-opacity=".63"/><stop offset=".66" stop-color="#f7fbff" stop-opacity=".94"/><stop offset="1" stop-color="#3e5267" stop-opacity=".7"/></linearGradient>
+<linearGradient id="surface" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffffff" stop-opacity=".19"/><stop offset=".48" stop-color="#d4e9ff" stop-opacity=".035"/><stop offset="1" stop-color="#ffffff" stop-opacity=".16"/></linearGradient>
+<linearGradient id="shine" x1="0" y1="0" x2="1" y2="0"><stop stop-color="white" stop-opacity=".05"/><stop offset=".3" stop-color="white" stop-opacity=".65"/><stop offset=".7" stop-color="white" stop-opacity=".03"/><stop offset="1" stop-color="white" stop-opacity=".35"/></linearGradient>
+</defs>
+<rect x="64" y="38" width="422" height="714" rx="210" fill="url(#surface)" stroke="url(#edge)" stroke-width="23"/>
+<rect x="80" y="53" width="390" height="684" rx="195" fill="none" stroke="url(#shine)" stroke-width="6"/>
+<rect x="94" y="67" width="362" height="655" rx="181" fill="none" stroke="#24394c" stroke-opacity=".42" stroke-width="2"/>
+<path d="M115 187 C110 110 175 70 252 67" fill="none" stroke="white" stroke-opacity=".7" stroke-width="9" stroke-linecap="round"/>
+<path d="M434 586 C432 663 390 709 329 723" fill="none" stroke="#ffffff" stroke-opacity=".52" stroke-width="8" stroke-linecap="round"/>
+</svg>

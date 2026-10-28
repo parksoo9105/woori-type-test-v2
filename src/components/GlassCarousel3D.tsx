@@ -8,6 +8,7 @@ export interface ArchetypeItem {
   colorName: string;
   hex: string;
   svgPath: string;
+  emblemPath: string;
   desc: string;
 }
 
@@ -20,6 +21,7 @@ export const ARCHETYPES: ArchetypeItem[] = [
     colorName: 'Orange',
     hex: '#F08300',
     svgPath: '/assets/type-01-face-to-face.svg',
+    emblemPath: '/emblems/emblem-type-01.png',
     desc: '서로 마주보는 두 인물과 꽃',
   },
   {
@@ -30,6 +32,7 @@ export const ARCHETYPES: ArchetypeItem[] = [
     colorName: 'Blue (Key)',
     hex: '#007CC3',
     svgPath: '/assets/type-02-online.svg',
+    emblemPath: '/emblems/emblem-type-02.png',
     desc: '온라인 공간과 항해하는 배',
   },
   {
@@ -40,6 +43,7 @@ export const ARCHETYPES: ArchetypeItem[] = [
     colorName: 'Dim Gray',
     hex: '#443E3B',
     svgPath: '/assets/type-03-open.svg',
+    emblemPath: '/emblems/emblem-type-03.png',
     desc: '두 손으로 받쳐 든 그릇과 별, 식물',
   },
   {
@@ -50,6 +54,7 @@ export const ARCHETYPES: ArchetypeItem[] = [
     colorName: 'Deep Black',
     hex: '#000000',
     svgPath: '/assets/type-04-own-pace.svg',
+    emblemPath: '/emblems/emblem-type-04.png',
     desc: '바다 위의 등대와 빛',
   },
 ];
@@ -362,33 +367,35 @@ export const GlassCarousel3D: React.FC<GlassCarousel3DProps> = ({
               {/* 3. COLORLESS TRANSPARENT GLASS CAPSULE (Stadium / Oval)   */}
               {/* ======================================================== */}
               <div
-                className={`group relative w-[170px] h-[270px] sm:w-[240px] sm:h-[380px] md:w-[280px] md:h-[440px] rounded-full overflow-hidden select-none transition-shadow duration-500`}
+                className={`group relative w-[175px] h-[280px] sm:w-[245px] sm:h-[390px] md:w-[285px] md:h-[450px] rounded-full overflow-hidden select-none transition-shadow duration-500`}
                 style={{
-                  // Pure colorless transparent glass
-                  background: 'rgba(255, 255, 255, 0.22)',
+                  // Pure colorless transparent glass with metallic chrome/silver rim bevel
+                  background: 'rgba(255, 255, 255, 0.20)',
                   backdropFilter: 'blur(16px) saturate(135%)',
                   WebkitBackdropFilter: 'blur(16px) saturate(135%)',
-                  border: '1.5px solid rgba(255, 255, 255, 0.85)',
+                  border: isFront
+                    ? '2.5px solid rgba(235, 240, 245, 0.95)'
+                    : '1.5px solid rgba(255, 255, 255, 0.75)',
                   boxShadow: isFront
-                    ? '0 32px 70px -15px rgba(28, 44, 37, 0.16), 0 12px 28px -6px rgba(28, 44, 37, 0.08), inset 0 1.5px 2px rgba(255, 255, 255, 0.95), inset 0 -2px 4px rgba(0, 0, 0, 0.05), inset 1.5px 0 2px rgba(255, 255, 255, 0.7), inset -1.5px 0 2px rgba(255, 255, 255, 0.7)'
-                    : '0 20px 40px -15px rgba(28, 44, 37, 0.10), inset 0 1px 2px rgba(255, 255, 255, 0.8), inset 0 -1px 2px rgba(0, 0, 0, 0.04)',
+                    ? '0 36px 80px -15px rgba(28, 44, 37, 0.22), 0 14px 32px -6px rgba(28, 44, 37, 0.10), inset 0 2px 3px rgba(255, 255, 255, 0.95), inset 0 -3px 5px rgba(0, 0, 0, 0.12), inset 2px 0 3px rgba(255, 255, 255, 0.75), inset -2px 0 3px rgba(255, 255, 255, 0.75)'
+                    : '0 20px 45px -15px rgba(28, 44, 37, 0.12), inset 0 1px 2px rgba(255, 255, 255, 0.8), inset 0 -1px 2px rgba(0, 0, 0, 0.06)',
                 }}
               >
                 {/* A. Inner Concentric Stadium Hairline Rim (Double glass bevel) */}
                 <div
-                  className="absolute inset-[10px] sm:inset-[12px] rounded-full pointer-events-none z-10"
+                  className="absolute inset-[11px] sm:inset-[15px] rounded-full pointer-events-none z-10"
                   style={{
-                    border: '1px solid rgba(255, 255, 255, 0.65)',
-                    boxShadow: 'inset 0 0 12px rgba(255, 255, 255, 0.35)',
+                    border: '1.5px solid rgba(255, 255, 255, 0.75)',
+                    boxShadow: 'inset 0 0 14px rgba(255, 255, 255, 0.35)',
                   }}
                 />
 
-                {/* B. Internal SVG Illustration (Centered & crisp) */}
-                <div className="absolute inset-0 flex items-center justify-center p-3 sm:p-5 z-0">
+                {/* B. Internal RAW Artwork Emblem (Transparent Engraved Artwork) */}
+                <div className="absolute inset-0 flex items-center justify-center p-5 sm:p-7 md:p-8 z-0">
                   <img
-                    src={item.svgPath}
+                    src={item.emblemPath}
                     alt={`${item.title} - ${item.desc}`}
-                    className="w-full h-full object-contain pointer-events-none drop-shadow-sm select-none"
+                    className="w-full h-full object-contain pointer-events-none drop-shadow-md select-none transform scale-[1.08] sm:scale-[1.12]"
                     draggable={false}
                     loading="eager"
                   />

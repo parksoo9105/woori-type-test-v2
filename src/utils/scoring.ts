@@ -144,48 +144,48 @@ export function calculateO3Score(val: string | number | undefined): number {
 
 /**
  * Calculates AI score & option ID (Question 7, single choice)
- * ① 1점 (ai_tool)
- * ② 2점 (ai_assistant)
- * ③ 3점 (ai_conversation)
- * ④ 4점 (ai_companion)
- * ⑤ 1점 (ai_no_relationship)
+ * ① 0점 (ai_tool)
+ * ② 1점 (ai_assistant)
+ * ③ 2점 (ai_conversation)
+ * ④ 3점 (ai_companion)
+ * ⑤ 0점 (ai_no_relationship)
+ * First and fifth options are both 0 points but mapped to distinct optionIds for unique descriptions.
  */
 export function calculateAIScore(val: string | number | undefined): { score: number; optionId: string } {
   if (val === undefined || val === null) {
-    return { score: 1, optionId: 'ai_tool' };
+    return { score: 0, optionId: 'ai_tool' };
   }
   if (typeof val === 'string') {
     switch (val) {
-      case 'ai_tool': return { score: 1, optionId: 'ai_tool' };
-      case 'ai_assistant': return { score: 2, optionId: 'ai_assistant' };
-      case 'ai_conversation': return { score: 3, optionId: 'ai_conversation' };
-      case 'ai_companion': return { score: 4, optionId: 'ai_companion' };
-      case 'ai_no_relationship': return { score: 1, optionId: 'ai_no_relationship' };
+      case 'ai_tool': return { score: 0, optionId: 'ai_tool' };
+      case 'ai_assistant': return { score: 1, optionId: 'ai_assistant' };
+      case 'ai_conversation': return { score: 2, optionId: 'ai_conversation' };
+      case 'ai_companion': return { score: 3, optionId: 'ai_companion' };
+      case 'ai_no_relationship': return { score: 0, optionId: 'ai_no_relationship' };
       default: {
-        return { score: 1, optionId: val };
+        return { score: 0, optionId: val };
       }
     }
   }
   // Numerical fallback (1-based index or 0-based)
   const num = Number(val);
   switch (num) {
-    case 1: return { score: 1, optionId: 'ai_tool' };
-    case 2: return { score: 2, optionId: 'ai_assistant' };
-    case 3: return { score: 3, optionId: 'ai_conversation' };
-    case 4: return { score: 4, optionId: 'ai_companion' };
-    case 5: return { score: 1, optionId: 'ai_no_relationship' };
+    case 1: return { score: 0, optionId: 'ai_tool' };
+    case 2: return { score: 1, optionId: 'ai_assistant' };
+    case 3: return { score: 2, optionId: 'ai_conversation' };
+    case 4: return { score: 3, optionId: 'ai_companion' };
+    case 5: return { score: 0, optionId: 'ai_no_relationship' };
     default: {
-      if (num === 0) return { score: 1, optionId: 'ai_tool' };
-      return { score: 1, optionId: 'ai_tool' };
+      return { score: 0, optionId: 'ai_tool' };
     }
   }
 }
 
 /**
  * Metric percentage conversion utilities (rounded to nearest integer)
- * - Connection: (C / 9) * 100
- * - Openness: (O / 9) * 100
- * - AI Perception: (AI / 4) * 100 (4-point scale, range 25% ~ 100%)
+ * - Connection: Math.round((C / 9) * 100), range 0% ~ 100%
+ * - Openness: Math.round((O / 9) * 100), range 0% ~ 100%
+ * - AI Perception: Math.round((AI / 3) * 100) (0~3 scale, range 0% ~ 100%)
  */
 export function toConnectionPercentage(cScore: number): number {
   const clamped = Math.min(Math.max(Number(cScore) || 0, 0), 9);
@@ -198,15 +198,15 @@ export function toOpennessPercentage(oScore: number): number {
 }
 
 export function toAIPercentage(aiScore: number): number {
-  const clamped = Math.min(Math.max(Number(aiScore) || 1, 1), 4);
-  return Math.round((clamped / 4) * 100);
+  const clamped = Math.min(Math.max(Number(aiScore) || 0, 0), 3);
+  return Math.round((clamped / 3) * 100);
 }
 
 /**
- * Calculates Connection (C: 0~9), Openness (O: 0~9), and AI (1~4)
+ * Calculates Connection (C: 0~9), Openness (O: 0~9), and AI (0~3)
  * C = C1 + C2 + C3
  * O = O1 + O2 + O3
- * AI = Q7 Score (1 ~ 4)
+ * AI = Q7 Score (0 ~ 3, independent)
  */
 export function calculateScores(answers: Answers): ScoreBreakdown {
   const c1Score = calculateC1Score(answers[1]);
@@ -221,7 +221,7 @@ export function calculateScores(answers: Answers): ScoreBreakdown {
 
   const connectionScore = c1Score + c2Score + c3Score; // 0 ~ 9
   const opennessScore = o1Score + o2Score + o3Score;     // 0 ~ 9
-  const aiScore = Math.min(Math.max(aiResult.score, 1), 4); // 1 ~ 4
+  const aiScore = Math.min(Math.max(aiResult.score, 0), 3); // 0 ~ 3
 
   const q1Raw = answers[1];
   const q1Answers = Array.isArray(q1Raw)

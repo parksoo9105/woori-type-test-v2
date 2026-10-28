@@ -19,6 +19,12 @@ export default {
         },
       },
       fontFamily: {
+        serif: [
+          '"Noto Serif KR"',
+          'Nanum Myeongjo',
+          'Batang',
+          'serif',
+        ],
         sans: [
           'Pretendard',
           'Inter',
@@ -30,15 +36,6 @@ export default {
           '"Apple SD Gothic Neo"',
           '"Noto Sans KR"',
           'sans-serif',
-        ],
-        serif: [
-          '"Noto Serif KR"',
-          '"Cormorant Garamond"',
-          'serif',
-        ],
-        garamond: [
-          '"Cormorant Garamond"',
-          'serif',
         ],
       },
       boxShadow: {

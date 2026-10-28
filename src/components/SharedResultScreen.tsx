@@ -21,7 +21,7 @@ export const SharedResultScreen: React.FC<SharedResultScreenProps> = ({
     } catch {}
     onStartTest();
     if (typeof window !== 'undefined') {
-      window.location.href = 'https://woori-type-test.vercel.app';
+      window.location.href = 'https://woori-type-test-v2.vercel.app';
     }
   };
 
@@ -33,7 +33,7 @@ export const SharedResultScreen: React.FC<SharedResultScreenProps> = ({
       } catch {}
       onStartTest();
       if (typeof window !== 'undefined') {
-        window.location.href = 'https://woori-type-test.vercel.app';
+        window.location.href = 'https://woori-type-test-v2.vercel.app';
       }
     };
 
@@ -45,7 +45,7 @@ export const SharedResultScreen: React.FC<SharedResultScreenProps> = ({
 
   return (
     <a
-      href="https://woori-type-test.vercel.app"
+      href="https://woori-type-test-v2.vercel.app"
       onClick={handleNavigateToStart}
       role="link"
       tabIndex={0}

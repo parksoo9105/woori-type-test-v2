@@ -124,24 +124,24 @@ describe('calculateScores & classifyResultType (최종 규격)', () => {
     });
   });
 
-  describe('AI 관계 인식 문항(Q7) 1~4점 척도 검증', () => {
-    it('①=1점 (ai_tool) 및 ⑤=1점 (ai_no_relationship) 고유 ID 구분 및 0점 제거 검증', () => {
+  describe('AI 친밀도 독립 문항(Q7) 0, 1, 2, 3, 0점 배점 및 설명 구분 검증', () => {
+    it('①=0점 (ai_tool) 및 ⑤=0점 (ai_no_relationship) 고유 ID 구분 및 0점 부여 검증', () => {
       const tool = calculateAIScore('ai_tool');
-      expect(tool.score).toBe(1);
+      expect(tool.score).toBe(0);
       expect(tool.optionId).toBe('ai_tool');
 
       const noRel = calculateAIScore('ai_no_relationship');
-      expect(noRel.score).toBe(1);
+      expect(noRel.score).toBe(0);
       expect(noRel.optionId).toBe('ai_no_relationship');
     });
 
-    it('②=2점, ③=3점, ④=4점 정상 매핑', () => {
-      expect(calculateAIScore('ai_assistant').score).toBe(2);
-      expect(calculateAIScore('ai_conversation').score).toBe(3);
-      expect(calculateAIScore('ai_companion').score).toBe(4);
+    it('②=1점, ③=2점, ④=3점 순서대로 정확히 매핑', () => {
+      expect(calculateAIScore('ai_assistant').score).toBe(1);
+      expect(calculateAIScore('ai_conversation').score).toBe(2);
+      expect(calculateAIScore('ai_companion').score).toBe(3);
     });
 
-    it('AI 점수는 C나 O 점수에 일절 합산되지 않는다', () => {
+    it('AI 점수는 C나 O 점수 및 유형 판정에 일절 영향을 주지 않는다', () => {
       const result = calculateScores({
         1: ['c1_1'], // 1점
         2: 'c2_2',   // 1점
@@ -149,18 +149,21 @@ describe('calculateScores & classifyResultType (최종 규격)', () => {
         4: 'o1_2',   // 1점
         5: 'o2_2',   // 2점 (역채점)
         6: 'o6_2',   // 1점 -> O = 4점
-        7: 'ai_companion', // AI = 4점
+        7: 'ai_companion', // AI = 3점
       });
 
       expect(result.connectionScore).toBe(3);
       expect(result.opennessScore).toBe(4);
-      expect(result.aiScore).toBe(4);
+      expect(result.aiScore).toBe(3);
       expect(result.aiOptionId).toBe('ai_companion');
+
+      // AI 점수와 무관하게 C=3(<5), O=4(<5) -> type-4 고요한 등대
+      expect(classifyResultType(result)).toBe('type-4');
     });
   });
 
   describe('지표별 백분율 환산 검증', () => {
-    it('연결감(C): (C ÷ 9) * 100 반올림', () => {
+    it('연결감(C): (C ÷ 9) * 100 반올림 (0~100%)', () => {
       expect(toConnectionPercentage(0)).toBe(0);
       expect(toConnectionPercentage(3)).toBe(33);
       expect(toConnectionPercentage(5)).toBe(56);
@@ -168,7 +171,7 @@ describe('calculateScores & classifyResultType (최종 규격)', () => {
       expect(toConnectionPercentage(9)).toBe(100);
     });
 
-    it('개방도(O): (O ÷ 9) * 100 반올림', () => {
+    it('개방도(O): (O ÷ 9) * 100 반올림 (0~100%)', () => {
       expect(toOpennessPercentage(0)).toBe(0);
       expect(toOpennessPercentage(3)).toBe(33);
       expect(toOpennessPercentage(5)).toBe(56);
@@ -176,11 +179,11 @@ describe('calculateScores & classifyResultType (최종 규격)', () => {
       expect(toOpennessPercentage(9)).toBe(100);
     });
 
-    it('AI 관계 인식: (AI ÷ 4) * 100 단순 환산 (최저 25%)', () => {
-      expect(toAIPercentage(1)).toBe(25);
-      expect(toAIPercentage(2)).toBe(50);
-      expect(toAIPercentage(3)).toBe(75);
-      expect(toAIPercentage(4)).toBe(100);
+    it('AI 관계 인식: (AI ÷ 3) * 100 (0~3점 척도, 0~100%)', () => {
+      expect(toAIPercentage(0)).toBe(0);
+      expect(toAIPercentage(1)).toBe(33);
+      expect(toAIPercentage(2)).toBe(67);
+      expect(toAIPercentage(3)).toBe(100);
     });
   });
 
