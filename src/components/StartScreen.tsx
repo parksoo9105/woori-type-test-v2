@@ -15,12 +15,12 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => {
   };
 
   return (
-    <div className="w-full bg-[#F8F7F3] text-[#171923] font-sans selection:bg-[#E4E2D8]">
+    <div className="w-full bg-[#FAF8F5] text-[#171923] font-sans selection:bg-[#007CC3]/20">
       
       {/* ======================================================== */}
-      {/* 1. HERO POSTER VIEWPORT (100svh, 1536x1024 poster design) */}
+      {/* 1. HERO POSTER VIEWPORT (100svh, Ezera Benchmark)       */}
       {/* ======================================================== */}
-      <section className="relative w-full h-[100svh] min-h-[560px]">
+      <section className="relative w-full h-[100svh] min-h-[640px]">
         <InteractivePosterScene
           onStart={onStart}
           onScrollToDetails={handleScrollToDetails}
@@ -33,52 +33,52 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => {
       <section
         ref={detailsRef}
         id="archetypes-overview"
-        className="relative z-20 w-full max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-16 py-20 border-t border-[#E4E2D8]"
+        className="relative z-20 w-full max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-16 py-24 border-t border-stone-200/80"
       >
         {/* Section Header */}
         <div className="max-w-2xl text-left mb-14">
-          <span className="text-[12px] sm:text-[13px] font-semibold tracking-[0.16em] text-[#64748B] uppercase block mb-3 font-sans">
+          <span className="text-[12px] sm:text-[13px] font-semibold tracking-[0.2em] text-[#007CC3] uppercase block mb-3 font-sans">
             FOUR RELATIONSHIP ARCHETYPES
           </span>
           <h2 className="text-[32px] sm:text-[42px] font-bold text-[#171923] tracking-[-0.03em] leading-[1.2] mb-4">
             우리는 서로 다른 방식으로 연결됩니다
           </h2>
-          <p className="text-[16px] sm:text-[18px] text-[#64748B] font-normal leading-[1.6]">
+          <p className="text-[16px] sm:text-[18px] text-stone-500 font-serif leading-[1.6]">
             여섯 개의 질문을 통해 지금 나의 관계 방식과 &lsquo;우리&rsquo;를 이루는 고유한 리듬을 발견해 보세요.
           </p>
         </div>
 
         {/* 4 Archetypes Cards Grid (Standalone Premium Cards) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {/* Card 01 */}
+          {/* Card 01 - Orange */}
           <div className="group transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1">
             <TypeIllustration
               typeId="type-1"
-              className="transition-shadow duration-300 group-hover:shadow-[0_22px_44px_-10px_rgba(255,101,79,0.28)]"
+              className="transition-shadow duration-300 group-hover:shadow-[0_22px_44px_-10px_rgba(240,131,0,0.32)]"
             />
           </div>
 
-          {/* Card 02 */}
+          {/* Card 02 - Blue Key */}
           <div className="group transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1">
             <TypeIllustration
               typeId="type-2"
-              className="transition-shadow duration-300 group-hover:shadow-[0_22px_44px_-10px_rgba(65,105,225,0.28)]"
+              className="transition-shadow duration-300 group-hover:shadow-[0_22px_44px_-10px_rgba(0,124,195,0.38)]"
             />
           </div>
 
-          {/* Card 03 */}
+          {/* Card 03 - Dim Gray */}
           <div className="group transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1">
             <TypeIllustration
               typeId="type-3"
-              className="transition-shadow duration-300 group-hover:shadow-[0_22px_44px_-10px_rgba(184,227,74,0.35)]"
+              className="transition-shadow duration-300 group-hover:shadow-[0_22px_44px_-10px_rgba(68,62,59,0.30)]"
             />
           </div>
 
-          {/* Card 04 */}
+          {/* Card 04 - Deep Black */}
           <div className="group transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1">
             <TypeIllustration
               typeId="type-4"
-              className="transition-shadow duration-300 group-hover:shadow-[0_22px_44px_-10px_rgba(128,100,216,0.28)]"
+              className="transition-shadow duration-300 group-hover:shadow-[0_22px_44px_-10px_rgba(0,0,0,0.38)]"
             />
           </div>
         </div>

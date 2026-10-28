@@ -31,6 +31,15 @@ export default {
           '"Noto Sans KR"',
           'sans-serif',
         ],
+        serif: [
+          '"Noto Serif KR"',
+          '"Cormorant Garamond"',
+          'serif',
+        ],
+        garamond: [
+          '"Cormorant Garamond"',
+          'serif',
+        ],
       },
       boxShadow: {
         'soft': '0 4px 24px -2px rgba(28, 44, 37, 0.06), 0 2px 8px -2px rgba(28, 44, 37, 0.04)',
