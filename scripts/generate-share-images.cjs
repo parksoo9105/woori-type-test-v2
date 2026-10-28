@@ -76,7 +76,7 @@ function buildShareSvg(c) {
   <!-- Right: Archetype Representative Graphic Artwork -->
   <g filter='url(#shadow_${c.slug})'>
     <g clip-path='url(#artClip_${c.slug})'>
-      <g transform='translate(640, 70) scale(1.3611111)'>
+      <g transform='translate(640, 70) scale(1.04255)'>
         ${svgInner}
       </g>
     </g>

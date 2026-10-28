@@ -21,7 +21,7 @@ export const TypeIllustration: React.FC<TypeIllustrationProps> = ({
   if (showTextOverlay) {
     return (
       <div
-        className={`relative aspect-[3/5] w-full rounded-3xl overflow-hidden select-none shadow-[0_16px_36px_-6px_rgba(23,25,35,0.12)] ${className}`}
+        className={`relative aspect-[470/836] w-full rounded-3xl overflow-hidden select-none shadow-[0_16px_36px_-6px_rgba(23,25,35,0.12)] ${className}`}
       >
         <img
           src={`/cards/card-${typeId}.png`}
@@ -37,14 +37,9 @@ export const TypeIllustration: React.FC<TypeIllustrationProps> = ({
   }
 
   // When showTextOverlay is false (e.g. on StartScreen archetype showcase)
-  const isGreen = typeId === 'type-3';
-  const pillStyle = isGreen
-    ? 'bg-[#1a2e12]/20 text-[#1a2e12] border border-[#1a2e12]/25'
-    : 'bg-black/25 text-white border border-white/30 backdrop-blur-xs';
-
   return (
     <div
-      className={`relative aspect-[360/480] w-full rounded-[28px] overflow-hidden select-none shadow-[0_16px_36px_-6px_rgba(23,25,35,0.18)] ${className}`}
+      className={`relative aspect-[470/836] w-full rounded-[24px] overflow-hidden select-none shadow-[0_16px_36px_-6px_rgba(23,25,35,0.14)] ${className}`}
     >
       <img
         src={imgSrc}
@@ -52,13 +47,6 @@ export const TypeIllustration: React.FC<TypeIllustrationProps> = ({
         className="w-full h-full object-cover block select-none"
         draggable={false}
       />
-      <div className="absolute top-4 right-4 z-10">
-        <span
-          className={`inline-block px-3 py-1 rounded-full text-[10.5px] font-bold tracking-wider uppercase font-sans ${pillStyle}`}
-        >
-          {config.typeTag}
-        </span>
-      </div>
     </div>
   );
 };
