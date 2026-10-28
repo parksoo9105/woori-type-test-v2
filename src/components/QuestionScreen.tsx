@@ -110,7 +110,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
         <div className="flex items-center justify-between h-10 mb-3">
           <div className="flex items-center gap-1.5">
             <span className="text-[11px] font-bold tracking-[0.18em] text-[#666666] uppercase font-sans">
-              OUR ARCHETYPE TEST ·
+              MY 'WE' ARCHETYPE TEST ·
             </span>
             <span className="text-[11px] font-bold tracking-[0.18em] text-[#666666] uppercase font-sans">
               QUESTION {currentIndex + 1}

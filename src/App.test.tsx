@@ -350,4 +350,63 @@ describe('〈우리 유형 테스트〉 7개 문항 및 4대 유형 최종 통�
       expect(screen.getAllByRole('button', { name: /테스트 시작하기/i })[0]).toBeInTheDocument();
     });
   });
+
+  describe('V2 디자인 및 UI 요구사항 검증', () => {
+    it('메인 화면이 반응형 독립 UI 요소로 렌더링되며 MY \'WE\' ARCHETYPE TEST 영문 타이틀과 스톤 이미지가 포함된다', () => {
+      render(<App />);
+
+      // 영문 타이틀 단일 따옴표 및 대문자 검증
+      expect(screen.getByText(/MY ['‘]WE['’] ARCHETYPE TEST/i)).toBeInTheDocument();
+
+      // 메인 히어로 스톤 클러스터 이미지
+      const heroImage = screen.getByAltText('우리유형 테스트 오브젝트 비주얼');
+      expect(heroImage).toBeInTheDocument();
+      expect(heroImage.getAttribute('src')).toBe('/assets/landing/hero_stones_feathered.png');
+
+      // 스크롤 안내 버튼
+      expect(screen.getByRole('button', { name: /아래로 스크롤하여 상세 유형 살펴보기/i })).toBeInTheDocument();
+    });
+
+    it('결과 화면에서 2D 좌표계 그래프와 내부 채점 용어((C), (O), / 9점)가 노출되지 않고 관계의 지표(백분율)만 표시된다', async () => {
+      render(<App />);
+      fireEvent.click(screen.getAllByRole('button', { name: /테스트 시작하기/i })[0]);
+
+      // Q1 ~ Q7 빠르게 응답하여 결과 화면 진입
+      fireEvent.click(screen.getByText('하루를 마치고 가족이나 가까운 친구와 일상을 나눌 때'));
+      fireEvent.click(screen.getByRole('button', { name: /선택 완료하고 다음으로/i }));
+
+      fireEvent.click(screen.getByText('서로의 일상을 챙기고, 함께할 기회를 꾸준히 만들어가는 편이다'));
+      fireEvent.click(screen.getByRole('button', { name: /다음 질문/i }));
+
+      fireEvent.click(screen.getByText('그렇다'));
+      fireEvent.click(screen.getByRole('button', { name: /다음 질문/i }));
+
+      fireEvent.click(screen.getByText('전혀 아니다'));
+      fireEvent.click(screen.getByRole('button', { name: /다음 질문/i }));
+
+      fireEvent.click(screen.getByText('매우 그렇다'));
+      fireEvent.click(screen.getByRole('button', { name: /다음 질문/i }));
+
+      fireEvent.click(screen.getByText('전혀 그렇지 않다'));
+      fireEvent.click(screen.getByRole('button', { name: /다음 질문/i }));
+
+      fireEvent.click(screen.getByText('필요할 때 정보를 얻거나 작업을 처리하는 도구'));
+      fireEvent.click(screen.getByRole('button', { name: /결과 확인하기/i }));
+
+      // 결과 화면 도달 확인
+      expect(await screen.findByRole('heading', { level: 1, name: '마주보는 정원사' })).toBeInTheDocument();
+
+      // 관계의 지표 섹션 검증
+      expect(screen.getByText('관계의 지표')).toBeInTheDocument();
+      expect(screen.getByText('METRICS')).toBeInTheDocument();
+
+      // 2D 좌표계, 사분면, C1~C3, O1~O3, / 9점 등 내부 개발/채점 용어가 노출되지 않음 검증
+      expect(screen.queryByText(/2D 좌표계/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/2D MATRIX/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/사분면/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/\/ 9점/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/가로축/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/세로축/i)).not.toBeInTheDocument();
+    });
+  });
 });

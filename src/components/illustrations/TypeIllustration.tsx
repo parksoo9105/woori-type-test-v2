@@ -21,7 +21,7 @@ export const TypeIllustration: React.FC<TypeIllustrationProps> = ({
   if (showTextOverlay) {
     return (
       <div
-        className={`relative aspect-[3/5] w-full rounded-3xl overflow-hidden select-none shadow-[0_16px_36px_-6px_rgba(23,25,35,0.12)] ${className}`}
+        className={`relative aspect-[9/16] w-full rounded-3xl overflow-hidden select-none shadow-[0_16px_36px_-6px_rgba(23,25,35,0.12)] ${className}`}
       >
         <img
           src={`/cards/card-${typeId}.png`}

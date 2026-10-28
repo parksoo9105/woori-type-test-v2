@@ -163,7 +163,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
       </section>
 
       {/* =========================================================================
-          SECTION 02 — 관계의 두 가지 지표 (2D 좌표계)
+          SECTION 02 — 관계의 지표 (연결감 · 개방도 · AI 관계 인식)
           ========================================================================= */}
       <MetricVisualizer breakdown={breakdown} accentColor={resultType.accentColor} />
 
