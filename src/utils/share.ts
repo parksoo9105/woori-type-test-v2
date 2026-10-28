@@ -30,7 +30,7 @@ export const SLUG_TO_TYPE_ID: Record<string, ResultTypeId> = {
 };
 
 export const SHARE_CONTENT = {
-  title: '우리유형 테스트',
+  title: '우리 유형 테스트',
   description: '여섯 개의 질문에 답하면 나의 ‘우리’ 유형을 볼 수 있어요.',
   summary: '여섯 개의 질문에 답하면 나의 ‘우리’ 유형을 볼 수 있어요.',
 };
@@ -64,25 +64,32 @@ export function getBaseUrl(): string {
 
 /**
  * Returns the canonical URL for sharing.
- * All share links unified to main test page (https://woori-type-test-v2.vercel.app) as mandated in Part 3.
+ * - If resultType is provided: returns dedicated result page (e.g. https://woori-type-test-v2.vercel.app/result/type-01)
+ * - Otherwise: returns main test start page (https://woori-type-test-v2.vercel.app)
  */
-export function getShareUrl(_resultType?: ResultTypeInfo | ResultTypeId, _breakdown?: ScoreBreakdown): string {
-  return getBaseUrl();
+export function getShareUrl(resultType?: ResultTypeInfo | ResultTypeId, _breakdown?: ScoreBreakdown): string {
+  const baseUrl = getBaseUrl();
+  if (resultType) {
+    const typeId = typeof resultType === 'string' ? resultType : resultType.id;
+    const slug = TYPE_URL_SLUGS[typeId] || 'type-01';
+    return `${baseUrl}/result/${slug}`;
+  }
+  return baseUrl;
 }
 
 /**
  * Returns the absolute preview image URL for Open Graph / Kakao Feed sharing.
- * - If resultType is provided: returns the dedicated archetype result card (/woori-type-0X.png)
- * - Otherwise: returns the main site thumbnail (/og-image.png)
+ * - If resultType is provided: returns the dedicated archetype result card (/cards/share-type-0X.png?v=3)
+ * - Otherwise: returns the final site thumbnail (/og-woori-v2-final.png?v=3)
  */
 export function getShareImageUrl(resultType?: ResultTypeInfo | ResultTypeId): string {
   const baseUrl = getBaseUrl();
   if (resultType) {
     const typeId = typeof resultType === 'string' ? resultType : resultType.id;
     const slug = TYPE_URL_SLUGS[typeId] || 'type-01';
-    return `${baseUrl}/woori-${slug}.png?v=2`;
+    return `${baseUrl}/cards/share-${slug}.png?v=3`;
   }
-  return `${baseUrl}/og-image.png?v=2`;
+  return `${baseUrl}/og-woori-v2-final.png?v=3`;
 }
 
 /**
@@ -199,10 +206,17 @@ export function initKakaoSDK(appKey?: string): boolean {
 }
 
 /**
- * Shares test link via KakaoTalk.
- * - Always links directly to the sender's dedicated archetype result page (/result/tX).
- * - Button & Image link both open the dedicated URL.
- * - 1200x630 horizontal share image used for crystal clarity.
+ * Shares directly via KakaoTalk Feed Template.
+ *
+ * Requirements (Section 10):
+ * A. General Site Share:
+ *    - Image: Final representative thumbnail (og-woori-v2-final.png)
+ *    - Button 1: "테스트 시작하기" -> Main start page
+ *
+ * B. Personal Result Share:
+ *    - Image: Dedicated final archetype card image (cards/share-type-0X.png)
+ *    - Button 1: "결과 확인하기" -> Dedicated result page (/result/type-0X)
+ *    - Button 2: "나도 테스트하기" -> New test start page (/)
  */
 export function shareViaKakao(
   resultType?: ResultTypeInfo,
@@ -226,48 +240,87 @@ export function shareViaKakao(
   }
 
   try {
-    const SHARE_URL = getBaseUrl();
-    const shareImageUrl = getShareImageUrl(resultType);
-    const imageWidth = 600;
-    const imageHeight = 1000;
+    const baseUrl = getBaseUrl();
 
-    const title = resultType
-      ? `나의 우리유형은 '${resultType.title}'`
-      : SHARE_CONTENT.title;
+    if (resultType) {
+      // B. Personal Result Share
+      const typeId = resultType.id;
+      const slug = TYPE_URL_SLUGS[typeId] || 'type-01';
+      const resultUrl = `${baseUrl}/result/${slug}`;
+      const startUrl = baseUrl;
+      const shareImageUrl = getShareImageUrl(resultType);
 
-    const description = resultType
-      ? '여섯 개의 질문으로 알아보는 나의 우리유형'
-      : SHARE_CONTENT.description;
+      const title = `나의 '우리' 유형: ${resultType.title}`;
+      const description = `${resultType.subtitle} | ${resultType.oneLineSummary}`;
 
-    const buttons = [
-      {
-        title: '나도 테스트하기',
-        link: {
-          mobileWebUrl: SHARE_URL,
-          webUrl: SHARE_URL,
+      const payload: any = {
+        objectType: 'feed',
+        content: {
+          title,
+          description,
+          imageUrl: shareImageUrl,
+          imageWidth: 600,
+          imageHeight: 1000,
+          link: {
+            mobileWebUrl: resultUrl,
+            webUrl: resultUrl,
+          },
         },
-      },
-    ];
+        buttons: [
+          {
+            title: '결과 확인하기',
+            link: {
+              mobileWebUrl: resultUrl,
+              webUrl: resultUrl,
+            },
+          },
+          {
+            title: '나도 테스트하기',
+            link: {
+              mobileWebUrl: startUrl,
+              webUrl: startUrl,
+            },
+          },
+        ],
+      };
 
-    const payload: any = {
-      objectType: 'feed',
-      content: {
-        title,
-        description,
-        imageUrl: shareImageUrl,
-        imageWidth,
-        imageHeight,
-        link: {
-          mobileWebUrl: SHARE_URL,
-          webUrl: SHARE_URL,
+      kakao.Share.sendDefault(payload);
+      return { status: 'sent' };
+    } else {
+      // A. General Site Share
+      const startUrl = baseUrl;
+      const shareImageUrl = getShareImageUrl();
+
+      const title = SHARE_CONTENT.title;
+      const description = SHARE_CONTENT.description;
+
+      const payload: any = {
+        objectType: 'feed',
+        content: {
+          title,
+          description,
+          imageUrl: shareImageUrl,
+          imageWidth: 1200,
+          imageHeight: 630,
+          link: {
+            mobileWebUrl: startUrl,
+            webUrl: startUrl,
+          },
         },
-      },
-      buttons,
-    };
+        buttons: [
+          {
+            title: '테스트 시작하기',
+            link: {
+              mobileWebUrl: startUrl,
+              webUrl: startUrl,
+            },
+          },
+        ],
+      };
 
-    kakao.Share.sendDefault(payload);
-
-    return { status: 'sent' };
+      kakao.Share.sendDefault(payload);
+      return { status: 'sent' };
+    }
   } catch (err: any) {
     console.error('Kakao Share execution error:', err);
     return {

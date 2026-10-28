@@ -401,8 +401,7 @@ export function App() {
 
   return (
     <div
-      onClick={sharedResultType ? handleRestart : undefined}
-      className={`relative min-h-screen bg-[#F5F3EE] text-[#171923] flex flex-col items-center ${screen === 'start' && !sharedResultType ? 'p-0' : 'justify-center py-2 sm:py-6'} selection:bg-[#E4E2D8] overflow-x-hidden font-sans ${sharedResultType ? 'cursor-pointer' : ''}`}
+      className={`relative min-h-screen bg-[#F5F3EE] text-[#171923] flex flex-col items-center ${screen === 'start' && !sharedResultType ? 'p-0' : 'justify-center py-2 sm:py-6'} selection:bg-[#E4E2D8] overflow-x-hidden font-sans`}
     >
       <main className={`w-full ${screen === 'start' && !sharedResultType ? 'max-w-none' : 'max-w-2xl min-h-screen sm:min-h-0 sm:my-auto'} relative z-10 transition-all duration-300`}>
         {sharedResultType ? (

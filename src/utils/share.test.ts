@@ -68,26 +68,26 @@ describe('Share Utilities (src/utils/share.ts)', () => {
       expect(url).toBe('https://collective-karma.org');
     });
 
-    it('모든 공유 링크는 메인 테스트 주소(https://woori-type-test-v2.vercel.app)를 반환한다', () => {
+    it('일반 공유 링크는 메인 테스트 주소를 반환하고, 결과 유형 전달 시 해당 유형별 결과 페이지 주소를 반환한다', () => {
       expect(getShareUrl()).toBe(DEFAULT_PRODUCTION_URL);
-      expect(getShareUrl({ id: 'type-1' } as any)).toBe(DEFAULT_PRODUCTION_URL);
-      expect(getShareUrl({ id: 'type-2' } as any)).toBe(DEFAULT_PRODUCTION_URL);
-      expect(getShareUrl({ id: 'type-3' } as any)).toBe(DEFAULT_PRODUCTION_URL);
-      expect(getShareUrl({ id: 'type-4' } as any)).toBe(DEFAULT_PRODUCTION_URL);
+      expect(getShareUrl({ id: 'type-1' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/result/type-01`);
+      expect(getShareUrl({ id: 'type-2' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/result/type-02`);
+      expect(getShareUrl({ id: 'type-3' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/result/type-03`);
+      expect(getShareUrl({ id: 'type-4' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/result/type-04`);
     });
   });
 
   describe('getShareImageUrl', () => {
-    it('배포 URL을 기준으로 /og-image.png?v=2 절대 경로를 반환한다', () => {
+    it('배포 URL을 기준으로 og-woori-v2-final.png 절대 경로를 반환한다', () => {
       const imgUrl = getShareImageUrl();
-      expect(imgUrl).toBe(`${DEFAULT_PRODUCTION_URL}/og-image.png?v=2`);
+      expect(imgUrl).toBe(`${DEFAULT_PRODUCTION_URL}/og-woori-v2-final.png?v=3`);
     });
 
-    it('resultType이 전달되면 해당 유형의 최종 결과 카드 이미지(/woori-type-XX.png?v=2) 절대 경로를 반환한다', () => {
-      expect(getShareImageUrl({ id: 'type-1' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/woori-type-01.png?v=2`);
-      expect(getShareImageUrl({ id: 'type-2' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/woori-type-02.png?v=2`);
-      expect(getShareImageUrl({ id: 'type-3' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/woori-type-03.png?v=2`);
-      expect(getShareImageUrl({ id: 'type-4' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/woori-type-04.png?v=2`);
+    it('resultType이 전달되면 해당 유형의 최종 결과 카드 이미지(/cards/share-type-0X.png?v=3) 절대 경로를 반환한다', () => {
+      expect(getShareImageUrl({ id: 'type-1' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/cards/share-type-01.png?v=3`);
+      expect(getShareImageUrl({ id: 'type-2' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/cards/share-type-02.png?v=3`);
+      expect(getShareImageUrl({ id: 'type-3' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/cards/share-type-03.png?v=3`);
+      expect(getShareImageUrl({ id: 'type-4' } as any)).toBe(`${DEFAULT_PRODUCTION_URL}/cards/share-type-04.png?v=3`);
     });
   });
 
@@ -185,7 +185,7 @@ describe('Share Utilities (src/utils/share.ts)', () => {
       );
     });
 
-    it('유형 결과가 전달되면 유형별 카드 이미지와 메인 페이지 이동 주소로 카카오톡 공유를 호출하며, "나도 테스트하기" 버튼을 포함한다', () => {
+    it('유형 결과가 전달되면 유형별 카드 이미지와 두 개의 버튼(결과 확인하기, 나도 테스트하기)으로 카카오톡 공유를 호출한다', () => {
       const sendDefaultMock = vi.fn();
       (window as any).Kakao = {
         isInitialized: () => true,
@@ -197,8 +197,8 @@ describe('Share Utilities (src/utils/share.ts)', () => {
       const mockType = {
         id: 'type-2',
         title: '연결망의 항해자',
-        subtitle: '새로운 사람과 생각에 열린 우리',
-        oneLineSummary: '새로운 사람과 생각에 열린 태도로 다가가며 다양한 관계의 가능성을 탐색하는 유형',
+        subtitle: '온라인으로 연결되는 우리',
+        oneLineSummary: '물리적 거리와 상관없이 취향과 생각으로 언제 어디서나 이어지는 관계',
       } as any;
 
       const result = shareViaKakao(mockType);
@@ -206,17 +206,24 @@ describe('Share Utilities (src/utils/share.ts)', () => {
       expect(sendDefaultMock).toHaveBeenCalledWith({
         objectType: 'feed',
         content: {
-          title: "나의 우리유형은 '연결망의 항해자'",
-          description: "여섯 개의 질문으로 알아보는 나의 우리유형",
-          imageUrl: `${DEFAULT_PRODUCTION_URL}/woori-type-02.png?v=2`,
+          title: "나의 '우리' 유형: 연결망의 항해자",
+          description: "온라인으로 연결되는 우리 | 물리적 거리와 상관없이 취향과 생각으로 언제 어디서나 이어지는 관계",
+          imageUrl: `${DEFAULT_PRODUCTION_URL}/cards/share-type-02.png?v=3`,
           imageWidth: 600,
           imageHeight: 1000,
           link: {
-            mobileWebUrl: DEFAULT_PRODUCTION_URL,
-            webUrl: DEFAULT_PRODUCTION_URL,
+            mobileWebUrl: `${DEFAULT_PRODUCTION_URL}/result/type-02`,
+            webUrl: `${DEFAULT_PRODUCTION_URL}/result/type-02`,
           },
         },
         buttons: [
+          {
+            title: '결과 확인하기',
+            link: {
+              mobileWebUrl: `${DEFAULT_PRODUCTION_URL}/result/type-02`,
+              webUrl: `${DEFAULT_PRODUCTION_URL}/result/type-02`,
+            },
+          },
           {
             title: '나도 테스트하기',
             link: {

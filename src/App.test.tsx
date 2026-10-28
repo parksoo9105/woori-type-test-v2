@@ -290,8 +290,8 @@ describe('〈우리 유형 테스트〉 7개 문항 및 4대 유형 최종 통�
       render(<App />);
 
       expect(screen.getAllByText('마주보는 정원사').length).toBeGreaterThan(0);
-      expect(screen.getByText('익숙한 이들과 깊게 연결되는 우리')).toBeInTheDocument();
-      expect(screen.getByText(/화면을 터치하면 테스트 첫 화면으로 이동합니다/i)).toBeInTheDocument();
+      expect(screen.getAllByText('익숙한 이들과 깊게 연결되는 우리').length).toBeGreaterThan(0);
+      expect(screen.getByText(/친구가 공유한 테스트 결과입니다/i)).toBeInTheDocument();
     });
 
     it('/result/t1 접근 시에도 호환성 있게 TYPE 01 마주보는 정원사 공유 화면이 렌더링된다', () => {
@@ -301,7 +301,7 @@ describe('〈우리 유형 테스트〉 7개 문항 및 4대 유형 최종 통�
       render(<App />);
 
       expect(screen.getAllByText('마주보는 정원사').length).toBeGreaterThan(0);
-      expect(screen.getByText(/화면을 터치하면 테스트 첫 화면으로 이동합니다/i)).toBeInTheDocument();
+      expect(screen.getByText(/친구가 공유한 테스트 결과입니다/i)).toBeInTheDocument();
     });
 
     it('/result/type-02 접근 시 TYPE 02 연결망의 항해자 공유 화면이 렌더링된다', () => {
@@ -311,8 +311,8 @@ describe('〈우리 유형 테스트〉 7개 문항 및 4대 유형 최종 통�
       render(<App />);
 
       expect(screen.getAllByText('연결망의 항해자').length).toBeGreaterThan(0);
-      expect(screen.getByText('새로운 사람과 생각에 열린 우리')).toBeInTheDocument();
-      expect(screen.getByText(/화면을 터치하면 테스트 첫 화면으로 이동합니다/i)).toBeInTheDocument();
+      expect(screen.getAllByText('온라인으로 연결되는 우리').length).toBeGreaterThan(0);
+      expect(screen.getByText(/친구가 공유한 테스트 결과입니다/i)).toBeInTheDocument();
     });
 
     it('/result/type-03 접근 시 TYPE 03 다리를 놓는 탐험가 공유 화면이 렌더링된다', () => {
@@ -322,8 +322,8 @@ describe('〈우리 유형 테스트〉 7개 문항 및 4대 유형 최종 통�
       render(<App />);
 
       expect(screen.getAllByText('다리를 놓는 탐험가').length).toBeGreaterThan(0);
-      expect(screen.getByText('새로운 만남에 열린 우리')).toBeInTheDocument();
-      expect(screen.getByText(/화면을 터치하면 테스트 첫 화면으로 이동합니다/i)).toBeInTheDocument();
+      expect(screen.getAllByText('새로운 만남에 열린 우리').length).toBeGreaterThan(0);
+      expect(screen.getByText(/친구가 공유한 테스트 결과입니다/i)).toBeInTheDocument();
     });
 
     it('/result/type-04 접근 시 TYPE 04 고요한 등대 공유 화면이 렌더링된다', () => {
@@ -333,18 +333,18 @@ describe('〈우리 유형 테스트〉 7개 문항 및 4대 유형 최종 통�
       render(<App />);
 
       expect(screen.getAllByText('고요한 등대').length).toBeGreaterThan(0);
-      expect(screen.getByText('나만의 속도로 관계 맺는 우리')).toBeInTheDocument();
-      expect(screen.getByText(/화면을 터치하면 테스트 첫 화면으로 이동합니다/i)).toBeInTheDocument();
+      expect(screen.getAllByText('나만의 속도로 관계 맺는 우리').length).toBeGreaterThan(0);
+      expect(screen.getByText(/친구가 공유한 테스트 결과입니다/i)).toBeInTheDocument();
     });
 
-    it('공유 화면에서 화면을 터치/클릭하면 루트 시작 화면으로 이동한다', () => {
+    it('공유 화면에서 "나도 테스트하기" 버튼을 클릭하면 테스트 시작 화면으로 이동한다', () => {
       delete (window as any).location;
       window.location = new URL('https://woori-type-test-v2.vercel.app/result/type-02') as any;
 
       render(<App />);
 
-      const ctaScreen = screen.getByTitle(/화면을 터치하여 나도 테스트 시작하기/i);
-      fireEvent.click(ctaScreen);
+      const testBtn = screen.getAllByRole('button', { name: /나도 테스트하기/i })[0];
+      fireEvent.click(testBtn);
 
       expect(screen.getAllByText(/우리.*유형.*테스트/i).length).toBeGreaterThan(0);
       expect(screen.getAllByRole('button', { name: /테스트 시작하기/i })[0]).toBeInTheDocument();
